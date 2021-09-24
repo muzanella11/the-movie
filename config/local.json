@@ -1,0 +1,13 @@
+{
+  "env": {
+    "environment": "local",
+    "hostname": "http://localhost:4000",
+    "apiBaseUrl": "http://localhost:4000/api-base",
+    "copywrite": {
+      "title": "The Movie",
+      "sitename": "The Movie",
+      "keywords": "The Movie",
+      "description": "The Movie"
+    }
+  }
+}
