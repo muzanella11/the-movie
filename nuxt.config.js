@@ -120,7 +120,8 @@ export default {
 
   // Proxy module
   proxy: {
-    '/api/': { target: CONFIGENVIRONMENT.env.apiBaseUrl, pathRewrite: { '^/api/': '' } }
+    '/api/': { target: CONFIGENVIRONMENT.env.apiBaseUrl, pathRewrite: { '^/api/': '' } },
+    '/cdn/': { target: CONFIGENVIRONMENT.env.imageBaseUrl, pathRewrite: { '^/cdn/': '' } }
   },
 
   // Robots module: https://github.com/nuxt-community/robots-module
