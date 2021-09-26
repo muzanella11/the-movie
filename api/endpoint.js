@@ -3,12 +3,13 @@ export default {
     index: ''
   },
   genre: {
-    index: 'genres',
-    getMovieList: 'genres/get-movie-list'
+    index: 'genre',
+    getGenreMovieList: 'genre/movie/list'
   },
   discover: {
     index: 'discover',
-    movieDiscover: 'discover/movie-discover'
+    movieDiscover: 'discover/movie',
+    tvDiscover: 'discover/tv'
   },
   movie: {
     index: 'movie',

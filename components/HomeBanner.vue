@@ -1,0 +1,95 @@
+<template>
+  <div class="ma-0">
+    <header class="c-banner" :style="headerStyle">
+      <div class="banner__contents">
+        <h1 class="banner__title">{{ bannerTitle }}</h1>
+        <div class="banner__buttons">
+          <button class="banner__button rounded-0">Play</button>
+          <button class="banner__button rounded-0">
+            <v-icon class="mr-2">
+              mdi-heart-outline
+            </v-icon>
+
+            Favorite
+          </button>
+        </div>
+        <p class="banner__description">{{ truncateOverview }}</p>
+      </div>
+      <div class="banner__fadeBottom" />
+    </header>
+  </div>
+</template>
+
+<script>
+import Qs from 'query-string'
+import * as DISCOVERTYPES from '~/store-namespace/discover/types'
+import VuexModule from '~/utils/vuex'
+
+const discoverModule = VuexModule(DISCOVERTYPES.MODULE_NAME)
+
+export default {
+  data () {
+    return {
+      movie: {},
+      size: 'cover',
+      position: 'center center',
+      image: ''
+    }
+  },
+
+  computed: {
+    ...discoverModule.mapState({
+      discoverEntries: state => state.entriesTv
+    }),
+
+    truncateOverview () {
+      const n = 150;
+      const movieOverview = this.movie?.overview;
+      return movieOverview?.length > n
+        ? movieOverview.substr(0, n - 1) + "..."
+        : movieOverview;
+    },
+
+    bannerTitle () {
+      return this.movie?.title || this.movie?.name || this.movie?.original_name;
+    },
+
+    headerStyle () {
+      return {
+        backgroundSize: this.size,
+        backgroundPosition: this.position,
+        backgroundImage: `url("/cdn/original${this.image}")`,
+      }
+    }
+  },
+
+  mounted () {
+    this.fetchEntriesTV()
+  },
+
+  methods: {
+    ...discoverModule.mapActions({
+      fetchTv: DISCOVERTYPES.FETCH_TV
+    }),
+
+    fetchEntriesTV () {
+      const payload = Object.assign({}, {
+        api_key: process.env.THE_MOVIE_DB_APP_KEY || '',
+        with_networks: 213
+      })
+
+      this.fetchTv(Qs.stringify(payload))
+        .then(response => {
+          const { results } = response.data
+          const movieIndex = Math.floor(Math.random() * (results.length - 1))
+
+          this.movie = results[movieIndex]
+          this.image = results[movieIndex]?.backdrop_path
+        })
+        .catch(err => {
+          console.info('err :: ', err)
+        })
+    }
+  }
+}
+</script>

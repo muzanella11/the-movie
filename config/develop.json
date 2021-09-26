@@ -2,8 +2,8 @@
   "env": {
     "environment": "develop",
     "hostname": "http://localhost:4000",
-    "apiBaseUrl": "https://api.themoviedb.org/3",
-    "imageBaseUrl": "http://image.tmdb.org/t/p",
+    "apiBaseUrl": "https://api.themoviedb.org/3/",
+    "imageBaseUrl": "http://image.tmdb.org/t/p/",
     "copywrite": {
       "title": "The Movie",
       "sitename": "The Movie",

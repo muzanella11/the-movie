@@ -11,7 +11,7 @@ const errorHandler = {
   unauthenticated () {
     console.error(errorPrefix, 'Unauthenticated')
 
-    window.location = '/logout'
+    // window.location = '/logout'
   },
 
   notAuthorize () {

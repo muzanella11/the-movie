@@ -82,6 +82,12 @@ export default {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    [
+      '@nuxtjs/dotenv',
+      {
+        systemvars: true
+      }
+    ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

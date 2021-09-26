@@ -6,10 +6,10 @@ const AxiosCancelToken = axios.CancelToken
 const NAMESPACE = 'GENRE'
 
 export default {
-  getMovieList () {
+  getGenreMovieList (payload) {
     let cancel
-    const CANCEL_TOKEN = `${NAMESPACE}_GET_MOVIE_LIST`
-    const request = resource.get(`${endpoint.genre.getMovieList}`, {
+    const CANCEL_TOKEN = `${NAMESPACE}_GET_GENRE_MOVIE_LIST`
+    const request = resource.get(`${endpoint.genre.getGenreMovieList}?${payload}`, {
       cancelToken: new AxiosCancelToken(cancelRequest => {
         cancel = cancelRequest
       })
