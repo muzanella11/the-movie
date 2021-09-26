@@ -6,7 +6,11 @@
     <v-card>
       <header class="c-banner" :style="headerStyle">
         <div class="banner__contents">
-          <h1 class="banner__title">{{ bannerTitle }}</h1>
+          <h1 class="banner__title">
+            <a :href="generateUrlDetail(movie)" class="white--text">
+              {{ bannerTitle }}
+            </a>
+          </h1>
 
           <div class="banner__buttons">
             <button

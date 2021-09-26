@@ -1,6 +1,8 @@
 export const getDefaultState = () => ({
+  entries: [],
   activeGenre: '',
-  detail: {}
+  detail: {},
+  detailImages: []
 })
 
 export default getDefaultState

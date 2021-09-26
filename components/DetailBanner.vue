@@ -6,9 +6,7 @@
     <header class="c-banner" :style="headerStyle">
       <div class="banner__contents">
         <h1 class="banner__title">
-          <a :href="generateUrlDetail(movieBanner)" class="white--text">
-            {{ bannerTitle }}
-          </a>
+          {{ bannerTitle }}
         </h1>
         <div class="banner__buttons">
           <button
@@ -24,7 +22,7 @@
           </button>
         </div>
         <p class="banner__description">
-          {{ showGenre(movieBanner.genre_ids) }} |
+          {{ formattedDate(movieBanner.release_date) }} |
           <v-tooltip bottom>
             <template #activator="{ on, attrs }">
               <span
@@ -47,13 +45,13 @@
 </template>
 
 <script>
-import Qs from 'query-string'
-import * as DISCOVERTYPES from '~/store-namespace/discover/types'
+import moment from 'moment'
+import * as MOVIETYPES from '~/store-namespace/movie/types'
 import MixinsVideo from '~/mixins/mixin-video'
 import MixinsMovie from '~/mixins/mixin-movie'
 import VuexModule from '~/utils/vuex'
 
-const discoverModule = VuexModule(DISCOVERTYPES.MODULE_NAME)
+const movieModule = VuexModule(MOVIETYPES.MODULE_NAME)
 
 export default {
   mixins: [
@@ -63,7 +61,6 @@ export default {
 
   data () {
     return {
-      movieBanner: {},
       size: 'cover',
       position: 'center center',
       image: ''
@@ -71,8 +68,8 @@ export default {
   },
 
   computed: {
-    ...discoverModule.mapState({
-      discoverEntries: state => state.entriesTv
+    ...movieModule.mapState({
+      movieBanner: state => state.detail
     }),
 
     truncateOverview () {
@@ -84,49 +81,26 @@ export default {
     },
 
     bannerTitle () {
-      return this.movieBanner?.title || this.movieBanner?.name || this.movieBanner?.original_name;
+      return this.movieBanner?.title || this.movieBanner?.name || this.movieBanner?.original_title;
     },
 
     headerStyle () {
+      console.info('sssss :: ', this.movieBanner)
       return {
         backgroundSize: this.size,
         backgroundPosition: this.position,
-        backgroundImage: `url("/cdn/original${this.image}")`,
+        backgroundImage: `url("/cdn/original/${this.movieBanner?.backdrop_path}")`,
       }
     }
   },
 
   mounted () {
-    this.fetchEntriesTV()
+    //
   },
 
   methods: {
-    ...discoverModule.mapActions({
-      fetchTv: DISCOVERTYPES.FETCH_TV
-    }),
-
-    fetchEntriesTV () {
-      const payload = Object.assign({}, {
-        api_key: process.env.THE_MOVIE_DB_APP_KEY || '',
-        with_networks: 213
-      })
-
-      this.fetchTv(Qs.stringify(payload))
-        .then(response => {
-          const { results } = response.data
-          const movieIndex = Math.floor(Math.random() * (results.length - 1))
-
-          this.movieBanner = results[movieIndex]
-          this.image = results[movieIndex]?.backdrop_path
-
-          this.movieSetState({
-            accessor: 'detail',
-            value: this.movieBanner
-          })
-        })
-        .catch(err => {
-          console.info('err :: ', err)
-        })
+    formattedDate (date) {
+      return moment(date).format('DD/MM/YYYY')
     }
   }
 }

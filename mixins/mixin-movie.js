@@ -1,3 +1,4 @@
+import currency from 'currency.js'
 import * as MOVIETYPES from '~/store-namespace/movie/types'
 import * as GENRETYPES from '~/store-namespace/genre/types'
 import VuexModule from '~/utils/vuex'
@@ -56,6 +57,38 @@ export default {
 
     showPopularity (value) {
       return Math.round(value)
+    },
+
+    generateUrlDetail (item) {
+      const {
+        id
+      } = item
+
+      return `/detail/${id}-enmovie`
+    },
+
+    formattedCurrency (value) {
+      return currency(value).format()
+    },
+
+    converTime (value) {
+      const hours = (value / 60)
+      const roundHours = Math.floor(hours)
+
+      const minutes = (hours - roundHours) * 60
+      const roundMinutes = Math.round(minutes)
+
+      let result = ''
+
+      if (roundHours > 0) {
+        result = `${roundHours} hours`
+      }
+
+      if (roundMinutes) {
+        result = result + `${roundHours > 0 ? ' ' : ''}${roundMinutes} minutes`
+      }
+
+      return result
     }
   }
 }

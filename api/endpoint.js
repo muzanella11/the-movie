@@ -12,7 +12,6 @@ export default {
     tvDiscover: 'discover/tv'
   },
   movie: {
-    index: 'movie',
-    movieDetail: 'movies/get-movie-details'
+    index: 'movie'
   }
 }

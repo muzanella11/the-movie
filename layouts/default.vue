@@ -3,7 +3,7 @@
     <v-app-bar
       dark elevate-on-scroll fixed
     >
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title style="cursor: pointer;" @click="$router.push('/')" v-text="title" />
     </v-app-bar>
     <v-main>
       <Nuxt />
