@@ -7,8 +7,12 @@
       <header class="c-banner" :style="headerStyle">
         <div class="banner__contents">
           <h1 class="banner__title">{{ bannerTitle }}</h1>
+
           <div class="banner__buttons">
-            <button class="banner__button rounded-0">Play</button>
+            <button
+              class="banner__button rounded-0"
+              @click="openDialogYt"
+            >Play</button>
             <button class="banner__button rounded-0">
               <v-icon class="mr-2">
                 mdi-heart-outline
@@ -17,7 +21,24 @@
               Favorite
             </button>
           </div>
-          <p class="banner__description">{{ truncateOverview }}</p>
+
+          <p class="banner__description">
+            {{ showGenre(movie.genre_ids) }} |
+            <v-tooltip bottom>
+              <template #activator="{ on, attrs }">
+                <span
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-star</v-icon> {{ showPopularity(movie.popularity) }}
+                </span>
+              </template>
+              <span>Popularity</span>
+            </v-tooltip>
+            <br />
+
+            {{ truncateOverview }}
+          </p>
         </div>
         <div class="banner__fadeBottom" />
       </header>
@@ -27,10 +48,12 @@
 
 <script>
 import MixinsMovie from '~/mixins/mixin-movie'
+import MixinsVideo from '~/mixins/mixin-video'
 
 export default {
   mixins: [
-    MixinsMovie
+    MixinsMovie,
+    MixinsVideo
   ],
 
   data () {

@@ -1,10 +1,16 @@
 <template>
-  <div class="ma-0">
+  <div
+    v-if="bannerTitle"
+    class="ma-0"
+  >
     <header class="c-banner" :style="headerStyle">
       <div class="banner__contents">
         <h1 class="banner__title">{{ bannerTitle }}</h1>
         <div class="banner__buttons">
-          <button class="banner__button rounded-0">Play</button>
+          <button
+            class="banner__button rounded-0"
+            @click="openDialogYt"
+          >Play</button>
           <button class="banner__button rounded-0">
             <v-icon class="mr-2">
               mdi-heart-outline
@@ -13,7 +19,23 @@
             Favorite
           </button>
         </div>
-        <p class="banner__description">{{ truncateOverview }}</p>
+        <p class="banner__description">
+          {{ showGenre(movieBanner.genre_ids) }} |
+          <v-tooltip bottom>
+            <template #activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-star</v-icon> {{ showPopularity(movieBanner.popularity) }}
+              </span>
+            </template>
+            <span>Popularity</span>
+          </v-tooltip>
+          <br />
+
+          {{ truncateOverview }}
+        </p>
       </div>
       <div class="banner__fadeBottom" />
     </header>
@@ -23,14 +45,21 @@
 <script>
 import Qs from 'query-string'
 import * as DISCOVERTYPES from '~/store-namespace/discover/types'
+import MixinsVideo from '~/mixins/mixin-video'
+import MixinsMovie from '~/mixins/mixin-movie'
 import VuexModule from '~/utils/vuex'
 
 const discoverModule = VuexModule(DISCOVERTYPES.MODULE_NAME)
 
 export default {
+  mixins: [
+    MixinsVideo,
+    MixinsMovie
+  ],
+
   data () {
     return {
-      movie: {},
+      movieBanner: {},
       size: 'cover',
       position: 'center center',
       image: ''
@@ -44,14 +73,14 @@ export default {
 
     truncateOverview () {
       const n = 150;
-      const movieOverview = this.movie?.overview;
+      const movieOverview = this.movieBanner?.overview;
       return movieOverview?.length > n
         ? movieOverview.substr(0, n - 1) + "..."
         : movieOverview;
     },
 
     bannerTitle () {
-      return this.movie?.title || this.movie?.name || this.movie?.original_name;
+      return this.movieBanner?.title || this.movieBanner?.name || this.movieBanner?.original_name;
     },
 
     headerStyle () {
@@ -83,8 +112,13 @@ export default {
           const { results } = response.data
           const movieIndex = Math.floor(Math.random() * (results.length - 1))
 
-          this.movie = results[movieIndex]
+          this.movieBanner = results[movieIndex]
           this.image = results[movieIndex]?.backdrop_path
+
+          this.movieSetState({
+            accessor: 'detail',
+            value: this.movieBanner
+          })
         })
         .catch(err => {
           console.info('err :: ', err)
