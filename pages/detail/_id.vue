@@ -112,7 +112,7 @@
                 sm="3"
                 xs="3"
               >
-                <v-hover v-slot="{ hover }">
+                <v-hover v-slot="{ hover, active }">
                   <v-card
                     :elevation="hover ? 12 : 0"
                     :color="active ? undefined : 'grey lighten-1'"

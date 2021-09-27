@@ -17,9 +17,17 @@
               class="banner__button rounded-0"
               @click="openDialogYt"
             >Play</button>
-            <button class="banner__button rounded-0">
-              <v-icon class="mr-2">
-                mdi-heart-outline
+            <button
+              class="banner__button rounded-0"
+              @click="actionFavorite(movie.id)"
+            >
+              <v-icon
+                class="mr-2"
+                :class="[
+                  checkHasFavorite(movie.id) ? 'red--text' : ''
+                ]"
+              >
+                {{ checkHasFavorite(movie.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
               </v-icon>
 
               Favorite
@@ -53,11 +61,13 @@
 <script>
 import MixinsMovie from '~/mixins/mixin-movie'
 import MixinsVideo from '~/mixins/mixin-video'
+import MixinsFavorite from '~/mixins/mixin-favorite'
 
 export default {
   mixins: [
     MixinsMovie,
-    MixinsVideo
+    MixinsVideo,
+    MixinsFavorite
   ],
 
   data () {

@@ -13,9 +13,17 @@
             class="banner__button rounded-0"
             @click="openDialogYt"
           >Play</button>
-          <button class="banner__button rounded-0">
-            <v-icon class="mr-2">
-              mdi-heart-outline
+          <button
+            class="banner__button rounded-0"
+            @click="actionFavorite(movieBanner.id)"
+          >
+            <v-icon
+              class="mr-2"
+              :class="[
+                checkHasFavorite(movieBanner.id) ? 'red--text' : ''
+              ]"
+            >
+              {{ checkHasFavorite(movieBanner.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
             </v-icon>
 
             Favorite
@@ -49,6 +57,7 @@ import moment from 'moment'
 import * as MOVIETYPES from '~/store-namespace/movie/types'
 import MixinsVideo from '~/mixins/mixin-video'
 import MixinsMovie from '~/mixins/mixin-movie'
+import MixinsFavorite from '~/mixins/mixin-favorite'
 import VuexModule from '~/utils/vuex'
 
 const movieModule = VuexModule(MOVIETYPES.MODULE_NAME)
@@ -56,7 +65,8 @@ const movieModule = VuexModule(MOVIETYPES.MODULE_NAME)
 export default {
   mixins: [
     MixinsVideo,
-    MixinsMovie
+    MixinsMovie,
+    MixinsFavorite
   ],
 
   data () {
