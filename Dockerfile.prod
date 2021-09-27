@@ -10,7 +10,7 @@ ENV ENVIRONMENT=production
 # set app serving to permissive / assigned
 ENV NUXT_HOST=0.0.0.0
 # set app port
-ENV NUXT_PORT=4022
+ENV NUXT_PORT=4024
 
 # update and install dependency
 RUN apk update && apk upgrade
@@ -25,8 +25,8 @@ RUN yarn install
 # since it builds the server as well
 RUN yarn build
 
-# expose 4022 on container
-EXPOSE 4022
+# expose 4024 on container
+EXPOSE 4024
 
 # start the app
 CMD [ "yarn", "start" ]
