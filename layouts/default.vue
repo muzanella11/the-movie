@@ -4,6 +4,14 @@
       dark elevate-on-scroll fixed
     >
       <v-toolbar-title style="cursor: pointer;" @click="$router.push('/')" v-text="title" />
+      <v-spacer />
+      <v-btn
+        color="white"
+        plain
+        to="/favorite"
+      >
+        Favorite
+      </v-btn>
     </v-app-bar>
     <v-main>
       <Nuxt />

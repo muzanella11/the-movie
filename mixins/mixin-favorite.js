@@ -25,8 +25,17 @@ export default {
     })
   },
 
+  watch: {
+    rawFavorite: {
+      deep: true,
+      handler (val) {
+        this.initFavorite()
+      }
+    }
+  },
+
   mounted () {
-    this.init()
+    // this.initFavorite()
   },
 
   methods: {
@@ -34,7 +43,7 @@ export default {
       movieSetState: MOVIETYPES.SET_STATE
     }),
 
-    init () {
+    initFavorite () {
       this.movieSetState({
         accessor: 'favorite',
         value: this.rawFavorite
